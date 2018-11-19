@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSongsTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateSongsTable extends Migration
      */
     public function up()
     {
-        Schema::create('songs', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->string('name',50);
+            $table->integer('id_user');
         });
     }
 
@@ -26,6 +27,6 @@ class CreateSongsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('songs');
+        Schema::dropIfExists('categories');
     }
 }
