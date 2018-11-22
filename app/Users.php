@@ -6,9 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Users extends Model
 {
-    /**
-     * Get the comments for the blog post.
-     */
     public function passwords()
     {
         return $this->hasMany('App\Passwords');

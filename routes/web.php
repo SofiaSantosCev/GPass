@@ -14,3 +14,5 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+$this->get('/verify-user/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
