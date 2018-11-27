@@ -11,6 +11,7 @@ Route::apiResource('users', 'UsersController');
 Route::apiResource('rol', 'RolController');
 Route::apiResource('passwords', 'PasswordsController');
 
-Route::apiResource('login','LoginController@login');
+Route::post('login','LoginController@login');
 Route::apiResource('register', 'RegistrationController');
+Route::get('logout', 'LoginController@logout');
 

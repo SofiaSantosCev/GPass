@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    //
+    public function users()
+    {
+        return $this->belongsTo('App\Users');
+    }
+
+    public function Passwords()
+    {
+        return $this->hasMany('App\Passwords');
+    }
 }

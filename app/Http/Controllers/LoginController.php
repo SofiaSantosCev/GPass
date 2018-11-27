@@ -5,39 +5,54 @@ namespace App\Http\Controllers;
 use App\Login;
 use Illuminate\Http\Request;
 use \Firebase\JWT\JWT;
+use App\Users;
+use Auth;
 
 class LoginController extends Controller
 {
-    const USER = 0;
-    const PASS = 1;
-    
+    //$loggedIn = false;
+
     public function login()
     {
         $key = 'bHH2JilgwA3YxOqwn';
 
-        $userDB = [
-            self::USER => "julio", 
-            self::PASS => "1234"
-        ];
-        
+        $user = Users::where('email', $_POST['email'])->first();
 
-        if ($userDB[self::USER] == $_POST['user'] and $userDB[self::PASS] == $_POST['pass'])
+        if ($user->email == $_POST['email'] and $user->password == $_POST['password'])
         {
             $dataToken =[
-                'user' => $userDB[self::USER], 
-                'pass' => $userDB[self::PASS],
+                'user' => $user, 
+                'pass' => $user->password,
                 'random' => time()
             ];
 
-            $token = JWT::encode($dataToken, $key);
-            return response()->json([
-            'token' => $token
-        ]);
+            $token = JWT::encode($dataToken, $key);         
 
+            $tokenDecoded = JWT::decode($token, $key, array('HS256'));
+
+            return response()->json([
+                
+                'token' => $token
+                /*$loggedIn = true;
+                var_dump($loggedIn);*/
+            ]);
 
         } else {
-            response("na nai", 403);
+            response("ese usuario no existe", 403);
         }
         
-    }    
+    } 
+
+   /* public function logout(Request $request) {
+        Auth::logout();
+        return redirect('/login');
+        $loggedIn = false;
+        var_dump($loggedIn);
+    }
+
+    public function resetPassword()
+    {
+
+    }*/
+         
 }

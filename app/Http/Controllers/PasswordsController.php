@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Passwords;
 use Illuminate\Http\Request;
+use App\LoginController;
 
 class PasswordsController extends Controller
 {
+
+    $loggedIn = false;
+    $login = new LoginController();
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +28,10 @@ class PasswordsController extends Controller
      */
     public function create()
     {
-        //
+        if ($loggedIn)
+        {
+            
+        }
     }
 
     /**
@@ -35,7 +42,10 @@ class PasswordsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($loggedIn)
+        {
+            
+        }
     }
 
     /**
@@ -57,7 +67,10 @@ class PasswordsController extends Controller
      */
     public function edit(Passwords $passwords)
     {
-        //
+        if ($logged)
+        {
+            
+        }
     }
 
     /**
@@ -69,7 +82,10 @@ class PasswordsController extends Controller
      */
     public function update(Request $request, Passwords $passwords)
     {
-        //
+        if ($logged)
+        {
+            
+        }
     }
 
     /**
@@ -80,6 +96,14 @@ class PasswordsController extends Controller
      */
     public function destroy(Passwords $passwords)
     {
-        //
+        if ($loggedIn)
+        {
+            
+        }
+    }
+
+    private function IsHeLoggedIn()
+    {
+        $login->token_get_all();
     }
 }
