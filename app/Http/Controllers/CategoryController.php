@@ -4,9 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use App\User;
 
 class CategoryController extends Controller
 {
+
+    private function IsLoggedIn()
+    {
+
+        if (!isset($headers['Authorization'])) 
+        {
+            return response("No tienes permisos", 403);   
+        }
+
+        $headers = getallheaders();
+        $password = User::where($headers['password'] == $tokenDecoded->password);
+        $email = User::where($headers['email'] == $tokenDecoded->email);
+
+        $tokenDecoded = decodeToken($request->header('Authorization'));
+
+        if ($tokenDecoded->password == $user->password and $tokenDecoded->email == $user->email) 
+        {
+            return true;
+        }
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +48,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +59,20 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (self::isLoggedIn())
+        {
+            /*$name = $_POST['name'];
+            $user_id = $_POST['user_id'];
+
+            $category = new Category;
+
+            $category->name = $name;
+            $category->user_id = $user_id;
+
+            $category->save();*/
+
+            var_dump("Estas logeado");
+        }
     }
 
     /**

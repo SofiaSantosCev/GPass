@@ -16,7 +16,7 @@ class RegistrationController extends Controller
         $password = $_POST['password'];
         $rol_id = self::ID_ROL;
 
-        $user = new Users;
+        $user = new User;
 
         $user->name = $name;
         $user->email = $email;
@@ -28,7 +28,7 @@ class RegistrationController extends Controller
 
     public function destroy($id)
     {
-        $user = Users::find($id);
+        $user = User::find($id);
         $user->delete();
     }
 }

@@ -10,7 +10,6 @@ use Auth;
 
 class LoginController extends Controller
 {
-    //$loggedIn = false;
 
     public function login()
     {
@@ -22,7 +21,7 @@ class LoginController extends Controller
         {
             $dataToken =[
                 'user' => $user, 
-                'pass' => $user->password,
+                'password' => $user->password,
                 'random' => time()
             ];
 
@@ -33,8 +32,6 @@ class LoginController extends Controller
             return response()->json([
                 
                 'token' => $token
-                /*$loggedIn = true;
-                var_dump($loggedIn);*/
             ]);
 
         } else {
@@ -43,16 +40,12 @@ class LoginController extends Controller
         
     } 
 
-   /* public function logout(Request $request) {
-        Auth::logout();
-        return redirect('/login');
-        $loggedIn = false;
-        var_dump($loggedIn);
+    public static function decodeToken($token)
+    {
+        $key = 'bHH2JilgwA3YxOqwn';
+        $tokenDecoded = JWT::decode($token, $key, array('HS256'));
+        return $tokenDecoded;
     }
 
-    public function resetPassword()
-    {
-
-    }*/
          
 }

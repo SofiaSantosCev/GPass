@@ -35,7 +35,17 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($loggedIn)
+        {
+            $name = $_POST['name'];
+
+            $newRol = new Rol;
+
+            $newRol->name = $name;
+
+            $newRol->save();
+        
+        }
     }
 
     /**

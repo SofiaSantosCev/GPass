@@ -4,13 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Passwords;
 use Illuminate\Http\Request;
-use App\LoginController;
+use \Firebase\JWT\JWT;
+use App\User;
 
 class PasswordsController extends Controller
 {
 
-    $loggedIn = false;
-    $login = new LoginController();
+    private function IsLoggedIn()
+    {
+        $headers = getallheaders();
+
+        if (!isset($headers['Authorization'])) 
+        {
+            return response("No tienes permisos", 403);   
+        }
+
+        $headers = User::getallheaders();
+        $password = User::where($headers['password'] == $user->password);
+        $email = User::where($headers['email'] == $user->email);
+
+        $tokenDecoded = decodeToken($request->header('Authorization');
+
+        if ($tokenDecoded->password == $user->password and $tokenDecoded->email == $user->email) 
+        {
+            
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,10 +48,7 @@ class PasswordsController extends Controller
      */
     public function create()
     {
-        if ($loggedIn)
-        {
-            
-        }
+        
     }
 
     /**
@@ -44,7 +61,20 @@ class PasswordsController extends Controller
     {
         if ($loggedIn)
         {
-            
+            $title = $_POST['title'];
+            $password = $_POST['password'];
+            $category_id = $_POST['category_id'];
+            $user_id = $_POST['user_id']; //asignar id del usuario que lo crea
+
+            $newPassword = new Passwords;
+
+            $newPassword->title = $title;
+            $newPassword->password = $password;
+            $newPassword->category_id = $category_id;
+            $newPassword->user_id = $user_id;
+
+            $newPassword->save();
+        
         }
     }
 
@@ -67,7 +97,7 @@ class PasswordsController extends Controller
      */
     public function edit(Passwords $passwords)
     {
-        if ($logged)
+        if ($loggedIn)
         {
             
         }
@@ -82,7 +112,7 @@ class PasswordsController extends Controller
      */
     public function update(Request $request, Passwords $passwords)
     {
-        if ($logged)
+        if ($loggedIn)
         {
             
         }
@@ -102,8 +132,5 @@ class PasswordsController extends Controller
         }
     }
 
-    private function IsHeLoggedIn()
-    {
-        $login->token_get_all();
-    }
+    
 }
