@@ -61,7 +61,7 @@ class CategoryController extends Controller
     {
         if (self::isLoggedIn())
         {
-            /*$name = $_POST['name'];
+            $name = $_POST['name'];
             $user_id = $_POST['user_id'];
 
             $category = new Category;
@@ -69,9 +69,7 @@ class CategoryController extends Controller
             $category->name = $name;
             $category->user_id = $user_id;
 
-            $category->save();*/
-
-            var_dump("Estas logeado");
+            $category->save();
         }
     }
 
