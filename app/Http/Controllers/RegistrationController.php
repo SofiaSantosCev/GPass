@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
  
 use Illuminate\Http\Request;
-use App\Users;
+use App\User;
  
 class RegistrationController extends Controller
 {
@@ -12,23 +12,43 @@ class RegistrationController extends Controller
     public function store()
     {
         $name = $_POST['user'];
+        
+        if (!ctype_graph($name)) {
+            return response("The user name can't have any blank space", 400); exit;
+        }
+
         $email = $_POST['email'];
+        
+        $user = User::where('email', $email)->first();
+
+        if ($email == $user->email) {
+            return response("The email already exists",400); exit;
+        }
+
         $password = $_POST['password'];
+        
+        if (strlen($password) < 8) {
+            return response("Invalid password. It must be at least 8 characters long.",400); exit;
+        }
+
         $rol_id = self::ID_ROL;
 
         $user = new User;
 
         $user->name = $name;
         $user->email = $email;
-        $user->password = $password;
+        $encondedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $user->password = $encondedPassword;
         $user->rol_id = $rol_id;
 
         $user->save();
+        var_dump("User created");
     }
 
     public function destroy($id)
     {
         $user = User::find($id);
         $user->delete();
+        var_dump("Your account has been deleted");
     }
 }

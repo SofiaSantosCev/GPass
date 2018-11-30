@@ -19,6 +19,7 @@ class CreatePasswordsTable extends Migration
             $table->string('password',20);
             $table->integer('category_id');
             $table->integer('user_id');
+            $table->timestamps();
         });
     }
 
