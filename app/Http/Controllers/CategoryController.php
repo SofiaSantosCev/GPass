@@ -19,9 +19,8 @@ class CategoryController extends Controller
 
         } else {
             
+            $user = self::getUserfromToken();
             $tokenDecoded = LoginController::decodeToken($headers['Authorization']);
-            $user = User::where('email', $tokenDecoded->email)->first();
-    
             if ($tokenDecoded->password == $user->password and $tokenDecoded->email == $user->email) 
             {
                 return true;
@@ -29,6 +28,12 @@ class CategoryController extends Controller
         }
     }
 
+    private function getUserfromToken(){
+        $headers = getallheaders();
+        $tokenDecoded = LoginController::decodeToken($headers['Authorization']);
+        $user = User::where('email', $tokenDecoded->email)->first();
+        return $user;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -44,11 +49,13 @@ class CategoryController extends Controller
             if(empty($categories))
             {
                 return response("There are no categories created",400);
-            } else {
+            } 
                 foreach ($categories as $category) {
                     array_push($categoryNames, $category->name);
                 } 
-            }
+                return response()->json([
+                    'categories' => $categoryNames;
+                ]);
             
 
         } else {
@@ -95,7 +102,7 @@ class CategoryController extends Controller
             }
             
 
-            $user_id = $_POST['user_id'];
+            $user_id = self::getUserfromToken()->id; //id del usuario del token;
 
             $category = new Category;
 
@@ -175,7 +182,6 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         if (self::isLoggedIn()) {
-
             $categoryToDelete = Category::find($id);
             $categoryToDelete->delete();
         }

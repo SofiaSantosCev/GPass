@@ -14,15 +14,17 @@ class RegistrationController extends Controller
         $name = $_POST['user'];
         
         if (!ctype_graph($name)) {
-            return response("The user name can't have any blank space", 400); exit;
+            return response("The user name must be only one word", 400); exit;
         }
 
         $email = $_POST['email'];
         
         $user = User::where('email', $email)->first();
 
-        if ($email == $user->email) {
-            return response("The email already exists",400); exit;
+        if($user != null){
+            if ($email == $user->email) {
+                return response("The email already exists",400); exit;
+            }
         }
 
         $password = $_POST['password'];

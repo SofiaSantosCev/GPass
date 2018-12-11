@@ -16,7 +16,8 @@ class LoginController extends Controller
 
         $user = User::where('email', $_POST['email'])->first();
 
-        if ($user->email == $_POST['email'] and $user->password == $_POST['password'])
+        $verifiedPassword = password_verify($_POST['password'], $user->password);
+        if ($user->email == $_POST['email'] and $verifiedPassword)
         {
             $dataToken =[
                 'email' => $user->email, 
@@ -28,16 +29,16 @@ class LoginController extends Controller
 
             $tokenDecoded = JWT::decode($token, $key, array('HS256'));
 
+
             return response()->json([
-                
                 'token' => $token
+
             ]);
 
         } else {
-            response("ese usuario no existe", 403);
+            return response("ese usuario no existe", 403); 
         }
-        
-    } 
+    }
 
     public static function decodeToken($token)
     {
@@ -45,6 +46,5 @@ class LoginController extends Controller
         $tokenDecoded = JWT::decode($token, $key, array('HS256'));
         return $tokenDecoded;
     }
-
          
 }
