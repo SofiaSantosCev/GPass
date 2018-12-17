@@ -36,15 +36,10 @@ class LoginController extends Controller
             ]);
 
         } else {
-            return response("ese usuario no existe", 403); 
+            return $this->error(403, "ese usuario no existe"); 
         }
     }
 
-    public static function decodeToken($token)
-    {
-        $key = 'bHH2JilgwA3YxOqwn';
-        $tokenDecoded = JWT::decode($token, $key, array('HS256'));
-        return $tokenDecoded;
-    }
+    
          
 }

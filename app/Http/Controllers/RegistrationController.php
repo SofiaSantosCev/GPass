@@ -14,7 +14,7 @@
             $name = $_POST['user'];
             
             if (!ctype_graph($name)) {
-                return response("The user name must be only one word", 400); exit;
+                return $this->error(400,"The user name must be only one word"); exit;
             }
 
             $email = $_POST['email'];
@@ -23,14 +23,14 @@
 
             if($user != null){
                 if ($email == $user->email) {
-                    return response("The email already exists",400); exit;
+                    return $this->error(400,"The email already exists"); exit;
                 }
             }
 
             $password = $_POST['password'];
             
             if (strlen($password) < 8) {
-                return response("Invalid password. It must be at least 8 characters long.",400); exit;
+                return $this->error(400,"Invalid password. It must be at least 8 characters long."); exit;
             }
 
             $rol_id = self::ID_ROL;

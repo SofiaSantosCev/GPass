@@ -9,31 +9,7 @@
         class CategoryController extends Controller
         {
 
-            private function IsLoggedIn()
-            {
-                $headers = getallheaders();
-                if (!isset($headers['Authorization'])) 
-                {
-                    return false;
-
-                } else {
-
-                    $user = self::getUserfromToken();
-                    $tokenDecoded = LoginController::decodeToken($headers['Authorization']);
-                    if ($tokenDecoded->password == $user->password and $tokenDecoded->email == $user->email) 
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            private function getUserfromToken()
-            {
-                $headers = getallheaders();
-                $tokenDecoded = LoginController::decodeToken($headers['Authorization']);
-                $user = User::where('email', $tokenDecoded->email)->first();
-                return $user;
-            }
+            
             /**
              * Display a listing of the resource.
              *
@@ -49,7 +25,7 @@
 
                     if(empty($categories))
                     {
-                        return response("There are no categories created",400);
+                        return $this->error(400,"There are no categories created");
                     } 
 
                     foreach ($categories as $category) {
@@ -57,14 +33,13 @@
                         array_push($categoryIDs, $category->id);
                     } 
 
-                    return response()->json([
+                    return $this->success("Category created", [
                         'categories' => $categoryNames
                         'ids' => $categoryIDs
-                    ],200);
+                    ]);
                     
-
                 } else {
-                    return response("You don't have permission", 403);
+                    return $this->error(403,"You don't have permission");
                 }
             }
 
@@ -102,12 +77,12 @@
 
                     if ($category != null) {
                         if ($name != $category->name) {
-                            return response("This category already exists",400); exit;
+                            return $this->error(400,"This category already exists"); exit;
                         }
                     }
                     
 
-                    $user_id = self::getUserfromToken()->id; //id del usuario del token;
+                    $user_id = $this->getUserfromToken()->id; //id del usuario del token;
 
                     $category = new Category;
 
@@ -117,7 +92,7 @@
                     $category->save();
 
                 } else {
-                    return response("You don't have permission", 403);
+                    return $this->error(403, "You don't have permission");
                 }
             }
 
@@ -150,7 +125,7 @@
              * @param  \App\Category  $category
              * @return \Illuminate\Http\Response
              */
-            public function update($id, Request $request)
+            public function update($id, $request)
             {
                 if (self::isLoggedIn()) 
                 {
@@ -164,22 +139,22 @@
                     {
                         if ($name != $categories->name)
                         {
-                            return response("This category already exists",400); exit;
+                            return $this->error(400, "This category already exists"); exit;
                         }
                     }
 
                     if (!ctype_graph($name))
                     {
-                        return response("The name of the category can't have any blank space", 400); exit;
+                        return $this->error(400, "The name of the category can't have any blank space"); exit;
                     }
 
                     if (empty($name))
                     {
-                        return response("The name of the category is empty", 400); exit;
+                        return $this->error(400, "The name of the category is empty"); exit;
                     }
 
                 } else {
-                    return response("You don't have permission", 403);
+                    return $this->error(403, "You don't have permission");
                 }
             }
 
