@@ -1,5 +1,4 @@
-    <?php
-     
+<?php
     namespace App\Http\Controllers;
      
     use Illuminate\Http\Request;
@@ -13,8 +12,9 @@
         {
             $name = $_POST['user'];
             
+            //Si el campo no está vacío
             if (!ctype_graph($name)) {
-                return $this->error(400,"The user name must be only one word"); exit;
+                return parent::error(400,"The user name must be only one word"); exit;
             }
 
             $email = $_POST['email'];
@@ -23,14 +23,15 @@
 
             if($user != null){
                 if ($email == $user->email) {
-                    return $this->error(400,"The email already exists"); exit;
+                    return parent::error(400,"The email already exists"); exit;
                 }
             }
 
             $password = $_POST['password'];
             
+            //minimo de caracteres en la contraseña
             if (strlen($password) < 8) {
-                return $this->error(400,"Invalid password. It must be at least 8 characters long."); exit;
+                return parent::error(400,"Invalid password. It must be at least 8 characters long."); exit;
             }
 
             $rol_id = self::ID_ROL;
@@ -43,8 +44,14 @@
             $user->password = $encondedPassword;
             $user->rol_id = $rol_id;
 
+            $dataToken =[
+                'email' => $user->email, 
+                'password' => $user->password,
+                'random' => time()
+            ];
+            
             $user->save();
-            var_dump("User created");
+            return parent::success("User created", parent::returnToken($dataToken));
         }
 
         public function destroy($id)

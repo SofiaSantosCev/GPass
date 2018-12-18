@@ -1,0 +1,54 @@
+ <!DOCTYPE html>
+<html>
+<head>
+	<title>LOGIN</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<h1>LOGIN</h1>
+	<form id="form">
+
+    	<label for="email"><b>Email</b></label>
+    	<input type="email" placeholder="Enter Email" name="email" required id="email"><br><br>
+    	<label for="password"><b>Password</b></label>
+    	<input type="password" placeholder="Enter Password" name="password" required id="password"> <br><br>
+    	<input type="submit" onclick="login()" >
+		
+	</form>
+
+</body>
+
+<script type="text/javascript">
+	
+	$("#form").submit(function(e){
+		e.preventDefault();
+	});
+
+	function login(){ 
+		var email = document.getElementById("email").value; //Datos introducidos en el formulario
+		var password = document.getElementById("password").value;
+
+		$.ajax({
+			url:"http://localhost:8888/GPASS/public/api/login",
+			type: "POST",
+
+			data:{
+				'email': email, 
+				'password': password
+			},
+
+			success: function(response){
+				console.log(response.token);
+				var token = response.token;
+				localStorage.setItem("token", token);
+				window.location = 'categories.html';
+			},
+			
+			error: function() {
+				console.log("Error :(");
+			}
+		});
+	}
+
+</script>
+</html>

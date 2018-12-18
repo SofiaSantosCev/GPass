@@ -25,18 +25,10 @@ class LoginController extends Controller
                 'random' => time()
             ];
 
-            $token = JWT::encode($dataToken, $key);         
-
-            $tokenDecoded = JWT::decode($token, $key, array('HS256'));
-
-
-            return response()->json([
-                'token' => $token
-
-            ]);
+            return parent::success("Estás logeado", parent::returnToken($dataToken));
 
         } else {
-            return $this->error(403, "ese usuario no existe"); 
+            return parent::error(403, "ese usuario no existe"); 
         }
     }
 
