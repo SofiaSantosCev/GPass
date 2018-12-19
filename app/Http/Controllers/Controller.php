@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use \Firebase\JWT\JWT;
+use App\User;
 
 class Controller extends BaseController
 {
@@ -52,6 +53,7 @@ class Controller extends BaseController
             return false;
         } else {
             $user = self::getUserfromToken();
+            var_dump($user);exit;
             $tokenDecoded = self::decodeToken($headers['Authorization']);
             if ($tokenDecoded->password == $user->password and $tokenDecoded->email == $user->email) 
             {
@@ -64,7 +66,10 @@ class Controller extends BaseController
     {
         $headers = getallheaders();
         $tokenDecoded = self::decodeToken($headers['Authorization']);
-        $user = User::where('email', $tokenDecoded->email)->first();
+        $email = $tokenDecoded->email;
+        $user = User::where('email', $email)->first();
+                var_dump($email);exit;
+
         return $user;
     }
 }

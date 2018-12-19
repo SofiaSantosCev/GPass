@@ -14,3 +14,4 @@ Route::post('login','LoginController@login');
 Route::apiResource('register', 'RegistrationController');
 Route::get('logout', 'LoginController@logout');
 
+

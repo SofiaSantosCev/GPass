@@ -30,8 +30,5 @@ class LoginController extends Controller
         } else {
             return parent::error(403, "ese usuario no existe"); 
         }
-    }
-
-    
-         
+    }         
 }
