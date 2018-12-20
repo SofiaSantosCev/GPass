@@ -53,7 +53,6 @@ class Controller extends BaseController
             return false;
         } else {
             $user = self::getUserfromToken();
-            var_dump($user);exit;
             $tokenDecoded = self::decodeToken($headers['Authorization']);
             if ($tokenDecoded->password == $user->password and $tokenDecoded->email == $user->email) 
             {
@@ -68,7 +67,6 @@ class Controller extends BaseController
         $tokenDecoded = self::decodeToken($headers['Authorization']);
         $email = $tokenDecoded->email;
         $user = User::where('email', $email)->first();
-                var_dump($email);exit;
 
         return $user;
     }

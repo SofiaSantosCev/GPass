@@ -9,8 +9,6 @@ use App\User;
 
 class PasswordsController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -62,20 +60,21 @@ class PasswordsController extends Controller
         if (parent::isLoggedIn())
         {
             $title = $_POST['title'];
+            $category_id = $_POST['category_id'];
 
             if (!ctype_graph($title)) {
-                return response("The title of the password cannot have any blank spaces", 400); exit;
+                return response("The title of the password cannot have any blank spaces", 400); 
             }
 
             if (empty($title)) {
-                return response("The title of the password is empty", 400); exit;
+                return response("The title of the password is empty", 400); 
             }
 
             $password = Passwords::where('title', $title)->first();
 
             if ($password != null) {
                 if ($title != $password->title) {
-                    return parent::error(400,"This password already exists"); exit;
+                    return parent::error(400,"This password already exists"); 
                 }
             }
                     
@@ -85,7 +84,7 @@ class PasswordsController extends Controller
 
             $password->title = $title;
             $password->user_id = $user_id;
-            $password->category_id = $category_id
+            $password->category_id = $category_id;
 
             $password->save();
 

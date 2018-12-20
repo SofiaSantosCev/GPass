@@ -59,18 +59,18 @@ class CategoryController extends Controller
             $name = $_POST['name'];
 
             if (!ctype_graph($name)) {
-                return response("The name of the category can't have any blank space", 400); exit;
+                return response("The name of the category can't have any blank space", 400);
             }
 
             if (empty($name)) {
-                return response("The name of the category is empty", 400); exit;
+                return response("The name of the category is empty", 400);
             }
 
             $category = Category::where('name', $name)->first();
 
             if ($category != null) {
                 if ($name != $category->name) {
-                    return parent::error(400,"This category already exists"); exit;
+                    return parent::error(400,"This category already exists");
                 }
             }
                     
@@ -82,6 +82,8 @@ class CategoryController extends Controller
             $category->user_id = $user_id;
 
             $category->save();
+
+            return parent::success("Categoria Creada","");
 
             } else {
                 return $this->error(403, "You don't have permission");
@@ -117,13 +119,13 @@ class CategoryController extends Controller
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update($id, $request)
+    public function update($id, Request $request)
     {
         if (self::isLoggedIn()) 
         {
 
             //$name = $request->get('name');
-            $name = "sofia"; //Here must be the value introduced through the body
+            $name = "sofia";
             Category::where('id', $id)->update(['name' => $name]);
             $categories = Category::where('name', $name)->first();
                 
@@ -131,18 +133,18 @@ class CategoryController extends Controller
             {
                 if ($name != $categories->name)
                 {
-                    return parent::error(400, "This category already exists"); exit;
+                    return parent::error(400, "This category already exists"); 
                 }
             }
 
             if (!ctype_graph($name))
             {
-                return parent::error(400, "The name of the category can't have any blank space"); exit;
+                return parent::error(400, "The name of the category can't have any blank space"); 
             }
 
             if (empty($name))
             {
-                return parent::error(400, "The name of the category is empty"); exit;
+                return parent::error(400, "The name of the category is empty"); 
             }
 
         } else {

@@ -14,7 +14,7 @@ class RegistrationController extends Controller
         
         //Si el campo no está vacío
         if (!ctype_graph($name)) {
-            return parent::error(400,"The user name must be only one word"); exit;
+            return parent::error(400,"The user name must be only one word"); 
         }
 
         $email = $_POST['email'];
@@ -23,7 +23,7 @@ class RegistrationController extends Controller
 
         if($user != null){
             if ($email == $user->email) {
-                return parent::error(400,"The email already exists"); exit;
+                return parent::error(400,"The email already exists"); 
             }
         }
 
@@ -31,7 +31,7 @@ class RegistrationController extends Controller
         
         //minimo de caracteres en la contraseña
         if (strlen($password) < 8) {
-            return parent::error(400,"Invalid password. It must be at least 8 characters long."); exit;
+            return parent::error(400,"Invalid password. It must be at least 8 characters long."); 
         }
 
         $rol_id = self::ID_ROL;
